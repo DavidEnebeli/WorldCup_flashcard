@@ -77,3 +77,53 @@ button {
 button:hover {
   background-color: #ffd95a;
 }
+.guess-section {
+  margin-top: 20px;
+}
+
+.guess-section label {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.guess-section input {
+  padding: 12px;
+  border-radius: 8px;
+  border: 3px solid #ccc;
+  margin-right: 10px;
+  font-size: 16px;
+}
+
+.guess-section input.correct {
+  border-color: green;
+  background-color: #d4f8d4;
+}
+
+.guess-section input.incorrect {
+  border-color: red;
+  background-color: #ffd6d6;
+}
+
+.correct-text {
+  color: #7cff7c;
+  font-weight: bold;
+}
+
+.incorrect-text {
+  color: #ff8a8a;
+  font-weight: bold;
+}
+
+.nav-buttons {
+  margin-top: 25px;
+}
+
+.nav-buttons button {
+  margin: 0 10px;
+}
+
+button:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+  opacity: 0.6;
+}

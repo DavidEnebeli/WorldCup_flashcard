@@ -57,34 +57,56 @@ const cards = [
 function App() {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
+  const [userGuess, setUserGuess] = useState("");
+  const [feedback, setFeedback] = useState("");
 
   const currentCard = cards[currentCardIndex];
 
   function flipCard() {
     setShowAnswer(!showAnswer);
   }
+  function checkAnswer() {
+    const guess = userGuess.trim().toLowerCase();
+    const correctAnswer = currentCard.answer.trim().toLowerCase();
 
-  function getRandomCard() {
-    let randomIndex = Math.floor(Math.random() * cards.length);
-
-    while (randomIndex === currentCardIndex) {
-      randomIndex = Math.floor(Math.random() * cards.length);
+    if (guess === correctAnswer) {
+      setFeedback("correct");
+    } else {
+      setFeedback("incorrect");
     }
-
-    setCurrentCardIndex(randomIndex);
-    setShowAnswer(false);
+  }
+  function goNext() {
+    if (currentCardIndex < cards.length - 1) {
+      setCurrentCardIndex(currentCardIndex + 1);
+      resetCard();
+    }
   }
 
+  function goBack() {
+    if (currentCardIndex > 0) {
+      setCurrentCardIndex(currentCardIndex - 1);
+      resetCard();
+    }
+  }
+
+  function resetCard() {
+    setShowAnswer(false);
+    setUserGuess("");
+    setFeedback("");
+  }
   return (
     <div className="app">
       <h1>World Cup Tournament Trivia</h1>
 
       <p className="description">
-        Test your knowledge of FIFA World Cup history, winning countries, hosts,
-        and legendary tournament facts.
+        Test your knowledge of FIFA World Cup history, winning countries, host nations,
+        and legendary goalscorers.
       </p>
 
       <h3>Number of cards: {cards.length}</h3>
+      <p>
+        Card {currentCardIndex + 1} of {cards.length}
+      </p>
 
       <div className="card" onClick={flipCard}>
         <img src={currentCard.image} alt="Country flag" />
@@ -96,7 +118,33 @@ function App() {
         </p>
       </div>
 
-      <button onClick={getRandomCard}>Next Card</button>
+      <div className="guess-section">
+        <label htmlFor="guess">Guess the answer:</label>
+
+        <input
+          id="guess"
+          type="text"
+          value={userGuess}
+          onChange={(event) => setUserGuess(event.target.value)}
+          className={feedback}
+          placeholder="Type your answer here"
+        />
+
+        <button onClick={checkAnswer}>Submit Guess</button>
+      </div>
+
+      {feedback === "correct" && <p className="correct-text">Correct!</p>}
+      {feedback === "incorrect" && <p className="incorrect-text">Incorrect. Try again!</p>}
+
+      <div className="nav-buttons">
+        <button onClick={goBack} disabled={currentCardIndex === 0}>
+          Back
+        </button>
+
+        <button onClick={goNext} disabled={currentCardIndex === cards.length - 1}>
+          Next
+        </button>
+      </div>
     </div>
   );
 }
